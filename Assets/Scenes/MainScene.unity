@@ -485,7 +485,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -530,7 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerReference: {fileID: 1435956116}
   _smoothStep: 0.25
-  _lookaheadDistance: 2
+  _lookaheadDistance: 1.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
