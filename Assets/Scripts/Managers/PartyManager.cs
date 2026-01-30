@@ -11,7 +11,9 @@ public class PartyManager : Singleton<PartyManager>
     [SerializeField] private GameObject _partyGoerPrefab;
     [SerializeField] private int _numberOfPartyGoers = 16;
     [SerializeField] private Vector2 _partyGoerSpeedRange;
-    
+
+    [SerializeField] private GameObject _movementPointParent;
+
     private List<PartyGoer> _partyGoers = new List<PartyGoer>();
     
     [Serializable]
@@ -63,8 +65,10 @@ public class PartyManager : Singleton<PartyManager>
             _partyGoers.Add(partyGoer);
             gameObject.transform.SetParent(transform);
 
-            
-            
+            var point = _movementPointParent.transform.GetChild(Random.Range(0, _movementPointParent.transform.childCount));
+            gameObject.transform.position = point.position + (Vector3)Random.insideUnitCircle;
+
+
             // gameObject.GetComponent<SpriteRenderer>().color = new Color(
             //     needs.PissThreshold * 0.01f,
             //     needs.SocialThreshold * 0.01f,

@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PartyPoint : MonoBehaviour
+public class MovementPoint : MonoBehaviour
 {
-    public PartyPointType PartyPointType;
-    public PartyPoint[] NeighbourPoints = new PartyPoint[4];
+    public MovementPointType movementPointType;
+    public MovementPoint[] NeighbourPoints = new MovementPoint[4];
 
     private void OnDrawGizmos()
     {
         if (NeighbourPoints == null) return;
-        Gizmos.color = GetTypeColor(PartyPointType);
+        Gizmos.color = GetTypeColor(movementPointType);
         
         Gizmos.DrawSphere(transform.position, 0.1f);
         
@@ -21,25 +22,25 @@ public class PartyPoint : MonoBehaviour
         }
     }
 
-    public static Color GetTypeColor(PartyPointType type)
+    public static Color GetTypeColor(MovementPointType type)
     {
         switch (type)
         {
             default:
                 return Color.gray;
-            case PartyPointType.Movement:
+            case MovementPointType.Movement:
                 return Color.green;
-            case PartyPointType.Socializing:
+            case MovementPointType.Socializing:
                 return Color.cyan;
-            case PartyPointType.PunchBowl:
+            case MovementPointType.PunchBowl:
                 return Color.red;
-            case PartyPointType.Bathroom:
+            case MovementPointType.Bathroom:
                 return Color.yellow;
         }
     }
 }
 
-public enum PartyPointType
+public enum MovementPointType
 {
     Unset = -1,
     Movement = 0,
