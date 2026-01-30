@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _movementSpeed;
 
     private Vector3 _velocity;
+    public Vector3 Velocity => _velocity;
     private Vector3 _moveDirection;
 
     private const float MOVE_LIMITER = 0.7f;
