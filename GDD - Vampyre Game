@@ -1,0 +1,53 @@
+Game name document
+
+Top-down, stealth game, vampyres, pixel art
+
+Win condition: Either kill all party goers or turn them to vampyres
+Lose condition: (Suspicion fills up,) you burn by sunlight, you take too long sun rises and rooms fill with light
+
+Player:
+Movement
+Interact with world (objects, party goers)
+    Sucking blood has a cooldown and action duration
+Batform (Extra)
+    Move faster
+    Can't interact
+    TANK CONTROLS!!!!
+    Cause more suspicion
+
+UI
+    Suspicion meter
+    Party goer dialogues
+    Game timer
+        Sundial
+    Main menu
+        Settings
+    Progress meter
+
+Environment hazards
+    Windows, sunlight
+        Can be blocked with curtains
+    Punch drink station
+        Quench fire after standing in sunlight
+    (Garlic bread station)
+        Applies damage if eaten, only showup with high sus
+    Bathroom
+        (Mirrors), party goers go here alone
+
+Suspicion
+    Fills in thresholds, more guards appear with higher tiers and bar can't recover below threshold
+    The higher it gets, the more guards enter the room
+
+Party goers:
+    Movement (kinda flocking behaviour)
+    Needs:
+        Socializing
+        Thirst
+        Bathroom breaks
+    Suspicion
+        Some party goers eat garlic bread when high suspicion, stink lines
+
+Guards:
+    No needs, patrols near main areas, suspicion grows fast
+
+
