@@ -50,4 +50,13 @@ Party goers:
 Guards:
     No needs, patrols near main areas, suspicion grows fast
 
-
+Update order
+    1. Movement related code
+        1a. party goer
+        1b. player
+        1c. guards
+    2. Locator
+    3. Player interaction
+    4. Lighting system
+    5. Suspicion
+    6. Party goer behaviour
