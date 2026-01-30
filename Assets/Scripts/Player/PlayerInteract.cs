@@ -7,24 +7,27 @@ public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float _interactionRange;
     
-    private List<ILocatable> _nearbyInteractables;
+    private List<ILocatable> _nearbyInteractables = new List<ILocatable>();
 
     private void Awake()
     {
-        _nearbyInteractables = new List<ILocatable>();
     }
     
     // Update is called once per frame
     private void Update()
     {
         _nearbyInteractables.Clear();
-        // TODO: Fetch nearby party goers
+        LocatorSystem.Instance.Fetch(transform.position, _interactionRange, _nearbyInteractables, ObjectKindMask.PartyGoer);
 
         foreach (var locatable in _nearbyInteractables)
         {
             if (locatable is not IInteractable interactable) continue;
             
-            interactable.Interact();
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                // TODO: Look for the closest interactable and interact with that
+                interactable.Interact();
+            }
         }
     }
     
@@ -33,5 +36,14 @@ public class PlayerInteract : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _interactionRange);
+
+        if (_nearbyInteractables == null) return;
+        
+        foreach (var interactable in _nearbyInteractables)
+        {
+            if (interactable == null) continue;
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(transform.position, interactable.Position);
+        }
     }
 }

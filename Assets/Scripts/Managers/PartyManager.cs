@@ -63,6 +63,8 @@ public class PartyManager : Singleton<PartyManager>
             _partyGoers.Add(partyGoer);
             gameObject.transform.SetParent(transform);
 
+            
+            
             // gameObject.GetComponent<SpriteRenderer>().color = new Color(
             //     needs.PissThreshold * 0.01f,
             //     needs.SocialThreshold * 0.01f,

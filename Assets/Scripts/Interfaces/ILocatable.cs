@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ILocatable
 {
-    bool IsActive { get; set; }
+    bool IsActive { get; }
     Vector3 Position { get; }
     float Radius { get; }
     ObjectKind Kind { get; }

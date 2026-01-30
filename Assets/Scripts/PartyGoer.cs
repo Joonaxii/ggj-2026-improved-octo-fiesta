@@ -8,20 +8,20 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
 {
     public Needs Needs;
     public float MovementSpeed;
-    
-    public bool IsActive { get; set; }
-    public Vector3 Position { get; }
-    public float Radius { get; }
+
+    public bool IsActive => true;
+    public Vector3 Position => transform.position;
+    public float Radius => 1;
     public ObjectKind Kind => ObjectKind.PartyGoer;
 
     private void Awake()
     {
-        // TODO: register Ilocatable to system
+        LocatorSystem.Instance.Register(this);
     }
 
     private void OnDestroy()
     {
-        // TODO: remove from registery
+        LocatorSystem.Instance.Unregister(this);
     }
 
     // Update is called once per frame
