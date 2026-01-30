@@ -10,7 +10,7 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
+        // TODO: Fetch nearby party goers
     }
     
     
