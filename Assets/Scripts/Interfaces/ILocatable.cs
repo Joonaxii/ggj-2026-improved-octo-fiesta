@@ -13,7 +13,7 @@ public interface ILocatable
 public enum ObjectKind : int
 {
     Default,
-    PartyGore,
+    PartyGoer,
     Guard,
     Prop,
 }
@@ -22,7 +22,7 @@ public enum ObjectKind : int
 public enum ObjectKindMask : int
 {
     Default = 0x1,
-    Baller = 0x2,
+    PartyGoer = 0x2,
     Guard = 0x4,
     Prop = 0x8,
     

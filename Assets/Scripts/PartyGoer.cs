@@ -12,7 +12,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     public bool IsActive { get; set; }
     public Vector3 Position { get; }
     public float Radius { get; }
-    public ObjectKind Kind => ObjectKind.PartyGore;
+    public ObjectKind Kind => ObjectKind.PartyGoer;
 
     private void Awake()
     {
