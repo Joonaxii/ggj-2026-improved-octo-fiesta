@@ -2,10 +2,17 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
+<<<<<<< HEAD
 /.idea.ggj-2026-improved-octo-fiesta.iml
 /contentModel.xml
 /modules.xml
 /projectSettingsUpdater.xml
+=======
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+/.idea.ggj-2026-improved-octo-fiesta.iml
+>>>>>>> refs/remotes/origin/main
 # Ignored default folder with query files
 /queries/
 # Datasource local storage ignored files
