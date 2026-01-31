@@ -13,6 +13,11 @@ public class UIManager : Singleton<UIManager>
     {
         base.Awake();
     }
+
+    private void Start()
+    {
+        OpenMainMenuUI();
+    }
     
     public void OpenMainMenuUI()
     {
