@@ -109,21 +109,10 @@ public class AudioManager : Singleton<AudioManager>
             return;
         }
         
-        
         _crossFade = Mathf.SmoothDamp(_crossFade, _isGameplay ? 1 : 0, ref _velocity, _crossfadeSmooth);
         
         _gameplayMusicPlayer.volume = _crossFade;
         _menuMusicPlayer.volume = 1.0f - _crossFade;
-        
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            PlayVictoryMusic();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            PlayLoseMusic();
-        }
     }
 
     private AudioSource AddMusicSource(string name, bool loop, AudioClip clip, float volume)
