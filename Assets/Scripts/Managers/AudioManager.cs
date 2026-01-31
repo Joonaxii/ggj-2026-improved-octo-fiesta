@@ -45,14 +45,33 @@ public class AudioManager : Singleton<AudioManager>
         _gameplayMusicPlayer.Play();
         _menuMusicPlayer.Play();
     }
+
+    public void ToggleMusic()
+    {
+        var toggle = PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE);
+        
+        if (toggle == 0)
+        {
+            _menuMusicPlayer.time = 0;
+            _gameplayMusicPlayer.time = 0;
+            
+            _menuMusicPlayer.Play();    
+            _gameplayMusicPlayer.Play();    
+        }
+        else
+        {
+            _menuMusicPlayer.Stop();
+            _gameplayMusicPlayer.Stop();
+        }
+    }
+    
+    public void ToggleGameplay(bool isGameplay)
+    {
+        _isGameplay = isGameplay;
+    }
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            _isGameplay = !_isGameplay;
-        }
-        
         _crossFade = Mathf.SmoothDamp(_crossFade, _isGameplay ? 1 : 0, ref _velocity, _crossfadeSmooth);
         
         _gameplayMusicPlayer.volume = _crossFade;
@@ -78,6 +97,11 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlaySound(AudioClip clip, float pitch)
     {
+        if (PlayerPrefs.GetInt(PlayerPrefsValues.SFX_TOGGLE) == 0)
+        {
+            return;
+        }
+        
         foreach (var audioSource in _audioSources)
         {
             if (audioSource.isPlaying) continue;
