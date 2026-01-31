@@ -7,6 +7,8 @@ using Needs = PartyManager.Needs;
 public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
 {
     public SpriteRenderer SpriteRenderer;
+    public AnimationController AnimationController;
+    
     public Needs Needs;
     public float MovementSpeed;
 
@@ -34,6 +36,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     public void Interact()
     {
         Debug.Log("SUCK");
+        AnimationController.DeathAnimation();
     }
 
 }

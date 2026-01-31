@@ -72,6 +72,7 @@ public class PartyManager : Singleton<PartyManager>
             var point = _movementPointParent.transform.GetChild(Random.Range(0, _movementPointParent.transform.childCount));
             gameObject.transform.position = point.position + (Vector3)Random.insideUnitCircle;
 
+            partyGoer.SpriteRenderer.flipX = gameObject.transform.position.x > point.position.x;
 
             // gameObject.GetComponent<SpriteRenderer>().color = new Color(
             //     needs.PissThreshold * 0.01f,

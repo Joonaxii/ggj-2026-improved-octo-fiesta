@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteRenderer: {fileID: 762399119873373596}
+  AnimationController: {fileID: 1903873211573591118}
   Needs:
     SocialThreshold: 0
     Social: 0
