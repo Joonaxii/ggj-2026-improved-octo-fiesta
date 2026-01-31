@@ -12,6 +12,8 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     public Needs Needs;
     public float MovementSpeed;
 
+    private CircleCollider2D _collider;
+
     public bool IsActive => true;
     public Vector3 Position => transform.position;
     public float Radius => 1;
@@ -20,6 +22,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     private void Awake()
     {
         LocatorSystem.Instance.Register(this);
+        _collider = GetComponent<CircleCollider2D>();
     }
 
     private void OnDestroy()
@@ -37,6 +40,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     {
         Debug.Log("SUCK");
         AnimationController.DeathAnimation();
+        _collider.enabled = false;
     }
 
 }

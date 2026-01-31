@@ -6,15 +6,23 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private AnimationController _animationController;
+
+    public Vector3 Position => _rb != null ? _rb.position : Vector3.zero;
+    public float Radius => _collider != null ? _collider.radius : 0;
     
+    private Rigidbody2D _rb;
+    private CircleCollider2D _collider;
     private Vector3 _velocity;
     public Vector3 Velocity => _velocity;
     private Vector3 _moveDirection;
 
     private const float MOVE_LIMITER = 0.7f;
     
-    void Start()
+    void Awake()
     {
+        _rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<CircleCollider2D>();
+        
         _moveDirection = Vector3.zero;
         _velocity = Vector3.zero;
     }
@@ -26,8 +34,7 @@ public class PlayerMovement : MonoBehaviour
         
         _velocity = _moveDirection * _movementSpeed;
         _velocity *= IsDiagonalMovement() ? MOVE_LIMITER : 1f;
-        transform.position += _velocity * Time.deltaTime;
-
+        _rb.velocity = _velocity;
         
         if (_velocity != Vector3.zero)
         {

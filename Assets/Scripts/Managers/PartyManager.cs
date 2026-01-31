@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class PartyManager : Singleton<PartyManager>
 {
+    [SerializeField] private LayerMask _spawnMask;
     [SerializeField] private float _pollRate = 1f;
     [SerializeField] private GameObject _partyGoerPrefab;
     [SerializeField] private int _numberOfPartyGoers = 16;
@@ -48,9 +49,23 @@ public class PartyManager : Singleton<PartyManager>
     protected override void Awake()
     {
         base.Awake();
-
         _partyGoers = new List<PartyGoer>();
+        SpawnParty();
+    }
 
+    public void KillAll()
+    {
+        foreach (var goer in _partyGoers)
+        {
+            if (goer != null)
+            {
+                goer.Interact();
+            }
+        }
+    }
+
+    public void SpawnParty()
+    {
         for (int i = 0; i < _numberOfPartyGoers; i++)
         {
             var gameObject = Instantiate(_partyGoerPrefab, transform.position, Quaternion.identity);
@@ -69,16 +84,32 @@ public class PartyManager : Singleton<PartyManager>
             _partyGoers.Add(partyGoer);
             gameObject.transform.SetParent(transform);
 
+            Vector2 dir = Random.insideUnitCircle;
+            
             var point = _movementPointParent.transform.GetChild(Random.Range(0, _movementPointParent.transform.childCount));
-            gameObject.transform.position = point.position + (Vector3)Random.insideUnitCircle;
+            RaycastHit2D ray = Physics2D.Raycast(point.position, dir, _spawnMask);
 
+            Vector2 position = point.position + (Vector3)dir;
+            if (ray)
+            {
+                position = ray.point + ray.normal * 0.25f;
+            }
+
+            gameObject.transform.position = position;
             partyGoer.SpriteRenderer.flipX = gameObject.transform.position.x > point.position.x;
-
-            // gameObject.GetComponent<SpriteRenderer>().color = new Color(
-            //     needs.PissThreshold * 0.01f,
-            //     needs.SocialThreshold * 0.01f,
-            //     needs.ThirstThreshold * 0.01f);
         }
+    }
+    
+    public void GetOutOfMyHouse()
+    {
+        foreach (var partyGoer in _partyGoers)
+        {
+            if (partyGoer != null)
+            {
+                GameObject.Destroy(partyGoer.gameObject);
+            }
+        }
+        _partyGoers.Clear();
     }
     
     public void TickMovement()
@@ -88,6 +119,9 @@ public class PartyManager : Singleton<PartyManager>
 
     public void TickBehaviour()
     {
-        
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.K))
+        {
+            KillAll();
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpatialHashGrid<T> 
 {
-    public const int CHUNK_SIZE = 64;
+    private const int CHUNK_SIZE = 64;
 
     public int Width => _width;
     public int Height => _height;
@@ -162,7 +162,7 @@ public class SpatialHashGrid<T>
         chunk.numInChunk++;
     }
 
-    private ref Chunk GetNewChunk(out int chunkIdx)
+    private void GetNewChunk(out int chunkIdx)
     {
         chunkIdx = _numChunks++;
         if (_numChunks >= _chunks.Length)
@@ -181,7 +181,6 @@ public class SpatialHashGrid<T>
         ref Chunk chunk = ref _chunks[chunkIdx];
         chunk.next = -1;
         chunk.numInChunk = 0;
-        return ref chunk;
     }
 
     public void Clear()

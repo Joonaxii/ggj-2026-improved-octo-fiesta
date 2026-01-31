@@ -9,7 +9,7 @@ public class CameraMovement : MonoBehaviour
     private Vector3 _velocity;
     
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!_playerReference) return;
         

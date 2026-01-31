@@ -16,6 +16,7 @@ public enum ObjectKind : int
     PartyGoer,
     Guard,
     Prop,
+    Player,
 }
 
 [System.Flags]
@@ -25,6 +26,7 @@ public enum ObjectKindMask : int
     PartyGoer = 0x2,
     Guard = 0x4,
     Prop = 0x8,
+    Player = 0x10,
     
     All = -1
 }
