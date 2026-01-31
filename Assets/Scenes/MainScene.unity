@@ -595,8 +595,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pollRate: 1
   _partyGoerPrefab: {fileID: 662405687405324451, guid: ad0607c999f57625d8bc66b4897297f9, type: 3}
-  _numberOfPartyGoers: 16
+  _numberOfPartyGoers: 8
   _partyGoerSpeedRange: {x: 2.5, y: 10}
+  _partyGoerSprites:
+  - {fileID: -1895469885, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
+  - {fileID: -363839793, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
+  - {fileID: 83813749, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
+  - {fileID: 1569352627, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
+  - {fileID: 67692561, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
+  - {fileID: 1446665886, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
   _movementPointParent: {fileID: 505541220}
 --- !u!1 &1366476154
 GameObject:

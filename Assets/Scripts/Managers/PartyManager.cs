@@ -11,7 +11,8 @@ public class PartyManager : Singleton<PartyManager>
     [SerializeField] private GameObject _partyGoerPrefab;
     [SerializeField] private int _numberOfPartyGoers = 16;
     [SerializeField] private Vector2 _partyGoerSpeedRange;
-
+    [SerializeField] private Sprite[] _partyGoerSprites = new Sprite[6];
+    
     [SerializeField] private GameObject _movementPointParent;
 
     private List<PartyGoer> _partyGoers = new List<PartyGoer>();
@@ -47,7 +48,7 @@ public class PartyManager : Singleton<PartyManager>
     protected override void Awake()
     {
         base.Awake();
-        
+
         _partyGoers = new List<PartyGoer>();
 
         for (int i = 0; i < _numberOfPartyGoers; i++)
@@ -55,6 +56,9 @@ public class PartyManager : Singleton<PartyManager>
             var gameObject = Instantiate(_partyGoerPrefab, transform.position, Quaternion.identity);
             var partyGoer = gameObject.GetComponent<PartyGoer>();
 
+            gameObject.transform.GetComponent<SpriteRenderer>().sprite =
+                _partyGoerSprites[Random.Range(0, _partyGoerSprites.Length)];
+            
             var needs = new Needs();
             needs.MaxOut();
             needs.RandomizeThresholds();
