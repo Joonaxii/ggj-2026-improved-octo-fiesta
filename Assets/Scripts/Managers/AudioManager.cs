@@ -8,12 +8,17 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioClip _gameplayMusic;
     [SerializeField] private float _crossfadeSmooth;
 
+    [SerializeField] private AudioClip _victoryMusic;
+    [SerializeField] private AudioClip _loseMusic;
+
+    private AudioSource _jinglePlayer;
     private AudioSource _menuMusicPlayer;
     private AudioSource _gameplayMusicPlayer;
     
     private float _crossFade;
     private float _velocity;
     private bool _isGameplay;
+    private bool _playingJingle;
     
     private List<AudioSource> _audioSources;
     private const int INITIAL_SOURCES = 8;
@@ -29,28 +34,20 @@ public class AudioManager : Singleton<AudioManager>
             AddAudioSource();
         }
         
-        _menuMusicPlayer = new GameObject("Menu Music Source").AddComponent<AudioSource>();
-        _menuMusicPlayer.playOnAwake = false;
-        _menuMusicPlayer.transform.SetParent(transform);
-        _menuMusicPlayer.loop = true;
-        _menuMusicPlayer.clip = _menuMusic;
-        
-        _gameplayMusicPlayer = new GameObject("Gameplay Music Source").AddComponent<AudioSource>();
-        _gameplayMusicPlayer.playOnAwake = false;
-        _gameplayMusicPlayer.transform.SetParent(transform);
-        _gameplayMusicPlayer.loop = true;
-        _gameplayMusicPlayer.clip = _gameplayMusic;
-        _gameplayMusicPlayer.volume = 0;
+        _menuMusicPlayer = AddMusicSource("Menu Music",true, _menuMusic, 1);
+        _gameplayMusicPlayer = AddMusicSource("Gameplay Music", true, _gameplayMusic, 0);
         
         _gameplayMusicPlayer.Play();
         _menuMusicPlayer.Play();
+        
+        _jinglePlayer = AddMusicSource("Jingle Player", false, null, 1);
     }
 
     public void ToggleMusic()
     {
         var toggle = PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE);
         
-        if (toggle == 0)
+        if (toggle == 1)
         {
             _menuMusicPlayer.time = 0;
             _gameplayMusicPlayer.time = 0;
@@ -65,6 +62,36 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
     
+    public void PlayVictoryMusic()
+    {
+        if (PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE) == 0)
+        {
+            return;
+        }
+        PlayJingle(_victoryMusic);
+    }
+
+    public void PlayLoseMusic()
+    {
+        if (PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE) == 0)
+        {
+            return;
+        }
+        PlayJingle(_loseMusic);
+    }
+
+    private void PlayJingle(AudioClip clip)
+    {
+        _jinglePlayer.clip = clip;
+        _jinglePlayer.time = 0;
+        _jinglePlayer.Play();
+        
+        _playingJingle = true;
+        
+        _gameplayMusicPlayer.volume = 0;
+        _menuMusicPlayer.volume = 0;
+    }
+    
     public void ToggleGameplay(bool isGameplay)
     {
         _isGameplay = isGameplay;
@@ -72,12 +99,44 @@ public class AudioManager : Singleton<AudioManager>
     
     private void Update()
     {
+        if (_playingJingle)
+        {
+            if (!_jinglePlayer.isPlaying)
+            {
+                _playingJingle = false;
+                _jinglePlayer.clip = null;
+            }
+            return;
+        }
+        
+        
         _crossFade = Mathf.SmoothDamp(_crossFade, _isGameplay ? 1 : 0, ref _velocity, _crossfadeSmooth);
         
         _gameplayMusicPlayer.volume = _crossFade;
         _menuMusicPlayer.volume = 1.0f - _crossFade;
+        
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            PlayVictoryMusic();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PlayLoseMusic();
+        }
     }
 
+    private AudioSource AddMusicSource(string name, bool loop, AudioClip clip, float volume)
+    {
+        var newSource = new GameObject(name).AddComponent<AudioSource>();
+        newSource.playOnAwake = false;
+        newSource.transform.SetParent(transform);
+        newSource.loop = loop;
+        newSource.clip = clip;
+        newSource.volume = volume;
+        return newSource;
+    }
+    
     private AudioSource AddAudioSource()
     {
         var source = new GameObject("Audio Source").AddComponent<AudioSource>();
