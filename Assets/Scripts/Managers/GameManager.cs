@@ -11,7 +11,6 @@ public class GameManager : Singleton<GameManager>
     }
     [SerializeField] private bool _rainbowMode; 
     
-    
     // Update is called once per frame
     void Update()
     {
@@ -21,6 +20,4 @@ public class GameManager : Singleton<GameManager>
         PartyManager.Instance.TickMovement();
         PartyManager.Instance.TickBehaviour();
     }
-    
-    
 }

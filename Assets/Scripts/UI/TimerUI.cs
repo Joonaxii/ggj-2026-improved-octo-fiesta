@@ -8,10 +8,16 @@ public class TimerUI : MonoBehaviour
     [SerializeField] private RectTransform _sunIndicator;
     [SerializeField] private RectTransform _moonIndicator;
     
-    // Update is called once per frame
-    void Update()
+    public void ResetVisuals(float initialValue = 0)
     {
-        _wheel.rotation = Quaternion.Euler(0, 0, -(Time.time * 360) *0.5f );
+        UpdateTimeWheelRotation(initialValue);
+    }
+    
+    // 0 -> 1 does one full rotation of the wheel, goes clock wise
+    // Initial position for 3 o'clock is roughly 0.15
+    public void UpdateTimeWheelRotation(float value)
+    {
+        _wheel.rotation = Quaternion.Euler(0, 0, -(value * 360));
         
         _sunIndicator.rotation = Quaternion.Euler(0, 0, -_wheel.rotation.eulerAngles.y);
         _moonIndicator.rotation = Quaternion.Euler(0, 0, -_wheel.rotation.eulerAngles.y);
