@@ -217,7 +217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 670979825780173731, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1359109134438458698, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
       propertyPath: m_AnchorMax.y
@@ -251,6 +251,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4711064228850866502, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 196342904}
+    - target: {fileID: 4711064228850866502, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleMusic
+      objectReference: {fileID: 0}
     - target: {fileID: 4727845256535021280, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -266,6 +274,26 @@ PrefabInstance:
     - target: {fileID: 4727845256535021280, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5548293291426067356, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5548293291426067356, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5548293291426067356, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 196342902}
+    - target: {fileID: 5548293291426067356, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5548293291426067356, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ToggleButtonUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6589991297691396308, guid: 4b61769abba9033c1a18d613dee118ce, type: 3}
       propertyPath: m_AnchorMax.y
@@ -449,11 +477,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d142443754154a4ba4b8cd004af3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuMusic: {fileID: 8300000, guid: 4cadc3f85f1d1c93a875cff88ad55702, type: 3}
-  _gameplayMusic: {fileID: 8300000, guid: a3791054789670d8d826d9d506d3dc6c, type: 3}
+  _menuMusic: {fileID: 8300000, guid: 444e3e23b492a021dafefcfb54e76429, type: 3}
+  _gameplayMusic: {fileID: 8300000, guid: 3426421815a8b9cfb84facaf37ab7709, type: 3}
   _crossfadeSmooth: 1
-  _victoryMusic: {fileID: 0}
-  _loseMusic: {fileID: 0}
+  _victoryMusic: {fileID: 8300000, guid: 7d263ded325cfe54e954bafee61d10cf, type: 3}
+  _loseMusic: {fileID: 8300000, guid: fba81c53533be3e66a65b5075f89e77e, type: 3}
 --- !u!1 &251755330
 GameObject:
   m_ObjectHideFlags: 0
@@ -20185,6 +20213,10 @@ PrefabInstance:
     - target: {fileID: 6653598392566326000, guid: cf25cc2360fb2b4b68a8d3418981293e, type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 6653598392566326000, guid: cf25cc2360fb2b4b68a8d3418981293e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

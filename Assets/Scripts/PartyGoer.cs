@@ -19,7 +19,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     public float Radius => 1;
     public ObjectKind Kind => ObjectKind.PartyGoer;
 
-    private void Awake()
+    private void Start()
     {
         LocatorSystem.Instance.Register(this);
         _collider = GetComponent<CircleCollider2D>();
