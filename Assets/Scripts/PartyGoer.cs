@@ -6,6 +6,7 @@ using Needs = PartyManager.Needs;
 
 public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
 {
+    public SpriteRenderer SpriteRenderer;
     public Needs Needs;
     public float MovementSpeed;
 

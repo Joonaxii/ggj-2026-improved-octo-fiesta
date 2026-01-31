@@ -3,7 +3,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed;
-
+    
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private AnimationController _animationController;
+    
     private Vector3 _velocity;
     public Vector3 Velocity => _velocity;
     private Vector3 _moveDirection;
@@ -24,6 +27,17 @@ public class PlayerMovement : MonoBehaviour
         _velocity = _moveDirection * _movementSpeed;
         _velocity *= IsDiagonalMovement() ? MOVE_LIMITER : 1f;
         transform.position += _velocity * Time.deltaTime;
+
+        
+        if (_velocity != Vector3.zero)
+        {
+            _spriteRenderer.flipX = _moveDirection.x < 0 ? true : false;
+            _animationController.MoveAnimation();
+        }
+        else
+        {
+            _animationController.IdleAnimation();
+        }
     }
 
     private bool IsDiagonalMovement()

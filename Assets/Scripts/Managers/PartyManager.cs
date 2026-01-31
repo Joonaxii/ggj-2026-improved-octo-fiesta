@@ -56,7 +56,7 @@ public class PartyManager : Singleton<PartyManager>
             var gameObject = Instantiate(_partyGoerPrefab, transform.position, Quaternion.identity);
             var partyGoer = gameObject.GetComponent<PartyGoer>();
 
-            gameObject.transform.GetComponent<SpriteRenderer>().sprite =
+            partyGoer.SpriteRenderer.sprite =
                 _partyGoerSprites[Random.Range(0, _partyGoerSprites.Length)];
             
             var needs = new Needs();
