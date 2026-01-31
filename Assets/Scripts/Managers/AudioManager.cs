@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
+    [SerializeField] private AudioClip _menuMusic;
+    [SerializeField] private AudioClip _gameplayMusic;
+    [SerializeField] private float _crossfadeSmooth;
+
+    private AudioSource _menuMusicPlayer;
+    private AudioSource _gameplayMusicPlayer;
+    
+    private float _crossFade;
+    private float _velocity;
+    private bool _isGameplay;
+    
     private List<AudioSource> _audioSources;
     private const int INITIAL_SOURCES = 8;
 
@@ -17,6 +28,35 @@ public class AudioManager : Singleton<AudioManager>
         {
             AddAudioSource();
         }
+        
+        _menuMusicPlayer = new GameObject("Menu Music Source").AddComponent<AudioSource>();
+        _menuMusicPlayer.playOnAwake = false;
+        _menuMusicPlayer.transform.SetParent(transform);
+        _menuMusicPlayer.loop = true;
+        _menuMusicPlayer.clip = _menuMusic;
+        
+        _gameplayMusicPlayer = new GameObject("Gameplay Music Source").AddComponent<AudioSource>();
+        _gameplayMusicPlayer.playOnAwake = false;
+        _gameplayMusicPlayer.transform.SetParent(transform);
+        _gameplayMusicPlayer.loop = true;
+        _gameplayMusicPlayer.clip = _gameplayMusic;
+        _gameplayMusicPlayer.volume = 0;
+        
+        _gameplayMusicPlayer.Play();
+        _menuMusicPlayer.Play();
+    }
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            _isGameplay = !_isGameplay;
+        }
+        
+        _crossFade = Mathf.SmoothDamp(_crossFade, _isGameplay ? 1 : 0, ref _velocity, _crossfadeSmooth);
+        
+        _gameplayMusicPlayer.volume = _crossFade;
+        _menuMusicPlayer.volume = 1.0f - _crossFade;
     }
 
     private AudioSource AddAudioSource()
