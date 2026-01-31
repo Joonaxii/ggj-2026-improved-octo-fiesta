@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class Utils
 {
@@ -14,5 +15,17 @@ public static class Utils
             && min0.y <= max1.y
             && max0.x >= min1.x
             && max0.y >= min1.y;
+    }
+
+    public static Vector2 Rotate(Vector2 vec, float rads) 
+    {
+        float cos = Mathf.Cos(rads);
+        float sin = Mathf.Sin(rads);
+        return new Vector2(vec.x * cos + vec.y * -sin, vec.x * sin + vec.y * cos);
+    }
+
+
+    public static Vector2 Perpendicular(Vector2 vec) {
+        return new Vector2(vec.y, -vec.x);
     }
 }
