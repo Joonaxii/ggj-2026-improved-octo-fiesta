@@ -4216,7 +4216,7 @@ MonoBehaviour:
     m_Bits: 1
   _pollRate: 1
   _partyGoerPrefab: {fileID: 662405687405324451, guid: ad0607c999f57625d8bc66b4897297f9, type: 3}
-  _numberOfPartyGoers: 24
+  _numberOfPartyGoers: 40
   _partyGoerSpeedRange: {x: 2.5, y: 10}
   _partyGoerSprites:
   - {fileID: -1895469885, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
