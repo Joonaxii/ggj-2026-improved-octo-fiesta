@@ -161,6 +161,7 @@ public class AudioManager : Singleton<AudioManager>
         {
             if (audioSource.isPlaying) continue;
             audioSource.spatialize = false;
+            audioSource.spatialBlend = 0;
             PlayClip(audioSource, clip, pitch, Vector3.zero);
 
             return;
@@ -179,10 +180,13 @@ public class AudioManager : Singleton<AudioManager>
             return;
         }
         
+        position.z = -10;
+        
         foreach (var audioSource in _audioSources)
         {
             if (audioSource.isPlaying) continue;
             audioSource.spatialize = true;
+            audioSource.spatialBlend = 1;
             PlayClip(audioSource, clip, pitch, position);
 
             return;
@@ -190,6 +194,7 @@ public class AudioManager : Singleton<AudioManager>
 
         var newSource = AddAudioSource();
         newSource.spatialize = true;
+        newSource.spatialBlend = 1;
         PlayClip(newSource, clip, pitch, position);
     }
 }

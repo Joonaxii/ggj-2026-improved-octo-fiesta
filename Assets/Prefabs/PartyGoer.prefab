@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2516000929825729591}
   - component: {fileID: 7459102740092594111}
-  - component: {fileID: 1903873211573591118}
   - component: {fileID: 2565217726397823415}
   - component: {fileID: 6748916874569348117}
   - component: {fileID: 9114630049607393888}
@@ -51,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteRenderer: {fileID: 762399119873373596}
-  AnimationController: {fileID: 1903873211573591118}
+  AnimationController: {fileID: 8776445278273736472}
   DialogueController: {fileID: 9114630049607393888}
   Needs:
     SocialThreshold: 0
@@ -61,21 +60,6 @@ MonoBehaviour:
     PissThreshold: 0
     Piss: 0
   MovementSpeed: 0
-  InteractSound: {fileID: 8300000, guid: 2d13aba941f01d661abd96158812b06f, type: 3}
-  FallSound: {fileID: 8300000, guid: d87d6da37119ba7628a81a5b73e32c4a, type: 3}
---- !u!114 &1903873211573591118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662405687405324451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45ca8acf80f05331a51da38da2e7422, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 4824516320073257131}
 --- !u!58 &2565217726397823415
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -512,6 +496,7 @@ GameObject:
   - component: {fileID: 8364420505710547499}
   - component: {fileID: 762399119873373596}
   - component: {fileID: 4824516320073257131}
+  - component: {fileID: 8776445278273736472}
   m_Layer: 0
   m_Name: PGSprite
   m_TagString: Untagged
@@ -608,3 +593,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8776445278273736472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8424969521284254982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45ca8acf80f05331a51da38da2e7422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 4824516320073257131}
+  _swoon: {fileID: 8300000, guid: 2d13aba941f01d661abd96158812b06f, type: 3}
+  _hitfloor: {fileID: 8300000, guid: d87d6da37119ba7628a81a5b73e32c4a, type: 3}

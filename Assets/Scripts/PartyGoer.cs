@@ -17,9 +17,6 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
 
     private CircleCollider2D _collider;
 
-    public AudioClip InteractSound;
-    public AudioClip FallSound;
-
     public bool IsActive => _state != State.Dead;
     public Vector3 Position => _position;
     public float Radius => 0.5f;

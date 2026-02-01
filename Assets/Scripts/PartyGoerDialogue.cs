@@ -57,6 +57,11 @@ public class PartyGoerDialogue : MonoBehaviour
     
     private void Update()
     {
+        if (!_canSpeak)
+        {
+            return;
+        }
+        
         if (_chatterMode)
         {
             UpdateChatterMode();
