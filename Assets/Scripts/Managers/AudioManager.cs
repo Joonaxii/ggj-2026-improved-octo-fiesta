@@ -17,8 +17,10 @@ public class AudioManager : Singleton<AudioManager>
     
     private float _crossFade;
     private float _velocity;
-    private bool _isGameplay;
     private bool _playingJingle;
+
+    private bool _musicOK;
+    private bool _audioOK;
     
     private List<AudioSource> _audioSources;
     private const int INITIAL_SOURCES = 8;
@@ -26,7 +28,10 @@ public class AudioManager : Singleton<AudioManager>
     protected override void Awake()
     {
         base.Awake();
-        
+
+        _audioOK = PlayerPrefs.GetInt(PlayerPrefsValues.SFX_TOGGLE, 1) != 0;
+        _musicOK = PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE, 1) != 0;
+
         _audioSources = new List<AudioSource>();
 
         for (int i = 0; i < INITIAL_SOURCES; i++)
@@ -45,15 +50,14 @@ public class AudioManager : Singleton<AudioManager>
 
     public void ToggleMusic()
     {
-        var toggle = PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE);
-        
-        if (toggle == 1)
+        _musicOK = PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE, 1) != 0;
+        if (_musicOK)
         {
             _menuMusicPlayer.time = 0;
             _gameplayMusicPlayer.time = 0;
             
             _menuMusicPlayer.Play();    
-            _gameplayMusicPlayer.Play();    
+            _gameplayMusicPlayer.Play();
         }
         else
         {
@@ -64,7 +68,7 @@ public class AudioManager : Singleton<AudioManager>
     
     public void PlayVictoryMusic()
     {
-        if (PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE) == 0)
+        if (!_musicOK)
         {
             return;
         }
@@ -73,7 +77,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlayLoseMusic()
     {
-        if (PlayerPrefs.GetInt(PlayerPrefsValues.MUSIC_TOGGLE) == 0)
+        if (!_musicOK)
         {
             return;
         }
@@ -84,17 +88,13 @@ public class AudioManager : Singleton<AudioManager>
     {
         _jinglePlayer.clip = clip;
         _jinglePlayer.time = 0;
+        _jinglePlayer.loop = false;
         _jinglePlayer.Play();
         
         _playingJingle = true;
         
         _gameplayMusicPlayer.volume = 0;
         _menuMusicPlayer.volume = 0;
-    }
-    
-    public void ToggleGameplay(bool isGameplay)
-    {
-        _isGameplay = isGameplay;
     }
     
     private void Update()
@@ -108,8 +108,10 @@ public class AudioManager : Singleton<AudioManager>
             }
             return;
         }
-        
-        _crossFade = Mathf.SmoothDamp(_crossFade, _isGameplay ? 1 : 0, ref _velocity, _crossfadeSmooth);
+        var state = GameManager.Instance.State;
+
+        bool isInGameplay = state == GameManager.GameState.InGame;
+        _crossFade = Mathf.SmoothDamp(_crossFade, isInGameplay ? 1 : 0, ref _velocity, _crossfadeSmooth);
         
         _gameplayMusicPlayer.volume = _crossFade;
         _menuMusicPlayer.volume = 1.0f - _crossFade;
@@ -145,7 +147,9 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlaySound(AudioClip clip, float pitch)
     {
-        if (PlayerPrefs.GetInt(PlayerPrefsValues.SFX_TOGGLE) == 0)
+        _audioOK = PlayerPrefs.GetInt(PlayerPrefsValues.SFX_TOGGLE, 1) != 0;
+
+        if (!_audioOK)
         {
             return;
         }

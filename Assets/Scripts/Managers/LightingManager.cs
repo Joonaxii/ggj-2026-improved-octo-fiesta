@@ -2,22 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class LightingSystem : Singleton<LightingSystem>
+public class LightingManager : Singleton<LightingManager>
 {
     [SerializeField] private Material _material;
     [SerializeField] private LayerMask _occluders;
     [SerializeField, Range(0, 64)] private int _numLightSegments = 8;
     [SerializeField, Range(0, 360)] private float _sunAngle = 0;
     
-    [SerializeField] private AnimationCurve _falloff = AnimationCurve.Linear(0, 0, 1, 1);
-
-    [SerializeField] private float _raindbowSpeed = 1.0f;
-    [FormerlySerializedAs("_ranbowModeColors")] [SerializeField] private Gradient _rainbowModeColors;
-    
-    [SerializeField, Range(0.1f, 1.0f)] private float _downscaling = 0.5f;  
+    [SerializeField] private AnimationCurve _falloff = AnimationCurve.Linear(1, 1, 0, 0);
+    [SerializeField, Range(0.1f, 1.0f)] private float _downscaling = 0.25f;  
+    [SerializeField] private Gradient _skyColorOverTime;  
     
     private Mesh _mesh;
     private Vector3[] _vertPositions = new Vector3[256];
@@ -27,12 +23,12 @@ public class LightingSystem : Singleton<LightingSystem>
     private int _indices;
     private int _verts;
 
-    private Color _rgbColor;
+    private LightPostProcessing _lightPP;
     private Vector2Int _resolution = default;
     private float _curDownscaling;
     private RenderTexture _texture;
     private Camera _lightCam;
-    private RawImage _lightImg;
+    private SkyBG _skyBG;
     private bool _rtInit;
     private int _drawLayer;
 
@@ -43,6 +39,12 @@ public class LightingSystem : Singleton<LightingSystem>
         _rtInit = false;
         _drawLayer = LayerMask.NameToLayer("Lights");
         base.Awake();
+        _lightPP = Camera.main.GetComponent<LightPostProcessing>();
+
+        if (_skyBG == null)
+        {
+            _skyBG = GameObject.FindObjectOfType<SkyBG>();
+        }
     }
 
     private HashSet<ILightSource> _lights = new HashSet<ILightSource>();
@@ -53,26 +55,38 @@ public class LightingSystem : Singleton<LightingSystem>
     public void Unregister(ILightSource source)
         => _lights.Remove(source);
 
+
+    private Color _skyColor;
+    private Color _skyColorVelocity;
+
     public void Tick(float progress)
     {
-        _rgbColor = _rainbowModeColors.Evaluate(Mathf.Repeat(Time.time * _raindbowSpeed, 1.0f));
-        
+        _sunAngle = Mathf.LerpUnclamped(-90.0f, 180.0f, progress);
+
+        var targetColor = GetColor();
+        // Kind of ugly but should work.
+        _skyColor = Color.Lerp(_skyColor, targetColor, Time.deltaTime * 1.5f);
+
+        if (_skyBG != null)
+        {
+            _skyBG.SetColor(_skyColor);
+        }
+
         Vector2Int cReso = new Vector2Int(Screen.width, Screen.height);
         if (cReso != _resolution || _texture == null || !_rtInit || _curDownscaling != _downscaling)
         {
-            if (_lightImg == null)
-            {
-                _lightImg = GameObject.FindWithTag("LightLayer").GetComponent<RawImage>();
-            }
             if (_lightCam == null)
             {
                 _lightCam = GameObject.FindWithTag("LightCamera").GetComponent<Camera>();
             }
 
+            _curDownscaling = _downscaling;
+            float funcScaling = _downscaling / (cReso.y / 1080.0f);
+
             _resolution = cReso;
-            cReso.x = Mathf.CeilToInt(_resolution.x * _downscaling);
-            cReso.y = Mathf.CeilToInt(_resolution.y * _downscaling);
-            
+            cReso.x = Mathf.CeilToInt(_resolution.x * funcScaling);
+            cReso.y = Mathf.CeilToInt(_resolution.y * funcScaling);
+
             if (_texture != null)
             {
                 _texture.Release();
@@ -82,8 +96,8 @@ public class LightingSystem : Singleton<LightingSystem>
             _texture.filterMode =  FilterMode.Point;
             
             _lightCam.targetTexture = _texture;
-            _lightImg.texture = _texture;
-            
+            _lightPP.Texture = _texture;
+
             _rtInit = true;
         }
         
@@ -109,10 +123,55 @@ public class LightingSystem : Singleton<LightingSystem>
         Graphics.DrawMesh(_mesh, Matrix4x4.identity, _material, _drawLayer);
     }
 
+    private Color GetColor()
+    {
+        float cur = Mathf.Repeat(_sunAngle, 360.0f) / 360.0f;
+        Color skyColor = _skyColorOverTime.Evaluate(cur);
+        return GetColor(skyColor);
+    }
+
+    private static Color GetColor(Color baseColor)
+    {
+        var mngr = GameManager.Instance;
+        var rgb = mngr.RainbowColor;
+        if (mngr.State == GameManager.GameState.GoingToWin ||
+           mngr.State == GameManager.GameState.AtWinScreen)
+        {
+            return new Color(1.0f, 0.0f, 0.0f);
+        }
+        else if(mngr.State == GameManager.GameState.GoingToLose ||
+           mngr.State == GameManager.GameState.AtLoseScreen)
+        {
+            return baseColor;
+        }
+        else if (mngr.RainbowMode)
+        {
+            baseColor.r = rgb.r;
+            baseColor.g = rgb.g;
+            baseColor.b = rgb.b;
+        }
+        return baseColor;
+    }
+
+    private static float GetSunAngle(float current)
+    {
+        var mngr = GameManager.Instance;
+        var rgb = mngr.RainbowColor;
+
+        if (mngr.State == GameManager.GameState.GoingToWin || 
+            mngr.State == GameManager.GameState.AtWinScreen ||
+            mngr.State == GameManager.GameState.GoingToLose ||
+            mngr.State == GameManager.GameState.AtLoseScreen)
+        {
+            return 180.0f;
+        }
+        return current;
+    }
+
     public void HandleLight(ILightSource source)
     {
         if(source == null || !source.IsActive || source.NumRays < 2) { return; }
-        float sunAngle = Mathf.Repeat(_sunAngle, 360);
+        float sunAngle =  GetSunAngle(Mathf.Repeat(_sunAngle, 360));
         
         int numRays = Mathf.Min(source.NumRays, 256);
         Span<Ray> hits = TEMP.AsSpan(0, numRays);
@@ -135,15 +194,8 @@ public class LightingSystem : Singleton<LightingSystem>
         Vector2 shift = Utils.Perpendicular(source.Direction) * (source.Width / (numRays - 1.0f));
         
         float distance = source.GetDistance(progress);
-        Color tint = source.GetTint(progress);
+        Color tint = source.IsSun ? _skyColor : source.GetTint(progress);
 
-        if (GameManager.Instance.RainbowMode)
-        {
-            tint.r = _rgbColor.r;
-            tint.g = _rgbColor.g;
-            tint.b = _rgbColor.b;
-        }
-        
         for (int i = 0; i < numRays; i++)
         {
             float effArc = source.IsSun ? Mathf.Clamp(arc, -Mathf.PI * 0.5f, Mathf.PI * 0.5f) : arc;
@@ -232,13 +284,13 @@ public class LightingSystem : Singleton<LightingSystem>
             FindNearestSegment(ray.hitPoint, vertPos, x, numRays, numSegments, out int clipIdx);
             if(clipIdx < 0) { continue;}
 
-            int nextIdx = clipIdx - numRays;
+            int prevIdx = clipIdx - numRays;
             vertPos[clipIdx] = ray.hitPoint;
 
-            //if (nextIdx > 0)
-            //{
-            //    vertPos[nextIdx] = vertPos[clipIdx] + (Vector3)ray.direction * 0.05f;
-            //}
+            if(prevIdx >= numRays)
+            {
+                vertPos[prevIdx] = ray.hitPoint + ray.direction * 0.05f;
+            }
 
             for (int i = clipIdx; i >= 0; i -= numRays)
             {

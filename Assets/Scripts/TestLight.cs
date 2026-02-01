@@ -34,7 +34,7 @@ public class TestLight : MonoBehaviour, ILightSource
     // Start is called before the first frame update
     void Start()
     {
-        LightingSystem.Instance.Register(this);
+        LightingManager.Instance.Register(this);
     }
 
     public void DrawGizmos()

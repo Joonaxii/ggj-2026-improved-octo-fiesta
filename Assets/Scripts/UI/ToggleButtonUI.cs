@@ -11,12 +11,12 @@ public class ToggleButtonUI : MonoBehaviour
 
     public void Awake()
     {
-        _cross.gameObject.SetActive(PlayerPrefs.GetInt(_prefToggleName) == 0);
+        _cross.gameObject.SetActive(PlayerPrefs.GetInt(_prefToggleName, 1) == 0);
     }
 
     public void Toggle()
     {
-        var currentValue = PlayerPrefs.GetInt(_prefToggleName);
+        var currentValue = PlayerPrefs.GetInt(_prefToggleName, 1);
         var newValue = currentValue == 1 ? 0 : 1;
         
         PlayerPrefs.SetInt(_prefToggleName, newValue);

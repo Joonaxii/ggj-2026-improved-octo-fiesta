@@ -25,9 +25,17 @@ public class PlayerMovement : MonoBehaviour
         
         _moveDirection = Vector3.zero;
         _velocity = Vector3.zero;
+        _rb.velocity = _velocity;
+    }
+
+    public void ResetMove()
+    {
+        _moveDirection = Vector3.zero;
+        _velocity = Vector3.zero;
+        _rb.velocity = _velocity;
     }
     
-    void Update()
+    public void TickMovement()
     {
         _moveDirection.x = Input.GetAxisRaw("Horizontal");
         _moveDirection.y = Input.GetAxisRaw("Vertical");

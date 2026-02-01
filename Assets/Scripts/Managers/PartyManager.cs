@@ -2,11 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class PartyManager : Singleton<PartyManager>
 {
+    public int GoersLeft
+    {
+        get => _goersLeft;
+        set
+        {
+            _goersLeft = value;
+            UIManager.Instance.UpdateGoers();
+
+            if(_goersLeft <= 0)
+            {
+                GameManager.Instance.Win("Manor Reclaimed!");
+            }
+        }
+    }
+    public int TotalGoers => _partyGoers.Count;
+
     [SerializeField] private LayerMask _spawnMask;
     [SerializeField] private float _pollRate = 1f;
     [SerializeField] private GameObject _partyGoerPrefab;
@@ -16,6 +31,8 @@ public class PartyManager : Singleton<PartyManager>
     
     [SerializeField] private GameObject _movementPointParent;
 
+    private int _goersLeft;
+ 
     private List<PartyGoer> _partyGoers = new List<PartyGoer>();
     
     [Serializable]
@@ -45,12 +62,10 @@ public class PartyManager : Singleton<PartyManager>
         }
     }
     
-    
     protected override void Awake()
     {
         base.Awake();
         _partyGoers = new List<PartyGoer>();
-        SpawnParty();
     }
 
     public void KillAll()
@@ -66,6 +81,7 @@ public class PartyManager : Singleton<PartyManager>
 
     public void SpawnParty()
     {
+        _goersLeft += _numberOfPartyGoers;
         for (int i = 0; i < _numberOfPartyGoers; i++)
         {
             var gameObject = Instantiate(_partyGoerPrefab, transform.position, Quaternion.identity);
@@ -102,6 +118,7 @@ public class PartyManager : Singleton<PartyManager>
     
     public void GetOutOfMyHouse()
     {
+        _goersLeft = 0;
         foreach (var partyGoer in _partyGoers)
         {
             if (partyGoer != null)

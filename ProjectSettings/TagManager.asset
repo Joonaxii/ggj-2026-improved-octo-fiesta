@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Interactable
   - LightCamera
-  - LightLayer
+  - LigthSky
   layers:
   - Default
   - TransparentFX

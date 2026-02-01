@@ -7,10 +7,16 @@ public class Player : MonoBehaviour, ILocatable
     public float Radius => _move.Radius;
     public ObjectKind Kind => ObjectKind.Player;
 
+    public PlayerMovement Movement => _move;
+    public PlayerInteract Interact => _interact;
+
     private PlayerMovement _move;
-    private void Awake()
+    private PlayerInteract _interact;
+
+    public void Init()
     {
         _move = GetComponent<PlayerMovement>();
+        _interact = GetComponent<PlayerInteract>();
     }
 
     private void Start()
@@ -20,5 +26,15 @@ public class Player : MonoBehaviour, ILocatable
     private void OnDestroy()
     {
         LocatorSystem.Instance.Unregister(this);
+    }
+
+    public void TickMovement()
+    {
+        _move.TickMovement();
+    }
+
+    public void TickInteraction()
+    {
+        _interact.TickInteract();
     }
 }

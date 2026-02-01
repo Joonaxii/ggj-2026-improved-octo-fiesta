@@ -18,6 +18,9 @@ public class GameResultUI : MonoBehaviour
         
         _score.text = score.ToString();
 
-        _highScoreText.SetActive(score >= PlayerPrefs.GetInt("HighScore"));
+        var wasHigh = score >= PlayerPrefs.GetInt(PlayerPrefsValues.HIGHSCORE);
+        _highScoreText.SetActive(wasHigh);
+
+        PlayerPrefs.SetInt(PlayerPrefsValues.HIGHSCORE, score);
     }
 }

@@ -17,7 +17,8 @@ public class TimerUI : MonoBehaviour
     // Initial position for 3 o'clock is roughly 0.15
     public void UpdateTimeWheelRotation(float value)
     {
-        _wheel.rotation = Quaternion.Euler(0, 0, -(value * 360));
+        //_wheel.rotation = Quaternion.Euler(0, 0, -(value * 360 + 270));
+        _wheel.rotation = Quaternion.Euler(0, 0, -Mathf.LerpUnclamped(90.0f, 360, value));
         
         _sunIndicator.rotation = Quaternion.Euler(0, 0, -_wheel.rotation.eulerAngles.y);
         _moonIndicator.rotation = Quaternion.Euler(0, 0, -_wheel.rotation.eulerAngles.y);

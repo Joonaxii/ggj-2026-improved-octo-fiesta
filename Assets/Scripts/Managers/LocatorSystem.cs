@@ -43,6 +43,8 @@ public class LocatorSystem : Singleton<LocatorSystem>
 
     public void OnDrawGizmosSelected()
     {
+        if (!GameManager.DebugFlags.HasFlag(GameManager.DebugView.LocatorGrid)) { return; }
+
         Vector3 pos = transform.position;
         _grid.Center = pos;
 

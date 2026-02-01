@@ -15,4 +15,20 @@ public class HUD : MonoBehaviour
         _suspicicion.ResetVisuals();
         _bloodDrop.InitializeValues();
     }
+
+    public void UpdateBloodDrop(int alive, int total)
+    {
+        _bloodDrop.UpdateAlivePartyGoers(alive);
+        _bloodDrop.UpdateBloodFill(1.0f - alive / (float)total);
+    }
+
+    public void UpdateTimer(float time)
+    {
+        _timer.UpdateTimeWheelRotation(time);
+    }
+
+    public void UpdateScore(int score)
+    {
+
+    }
 }

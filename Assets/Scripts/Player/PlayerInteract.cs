@@ -13,21 +13,25 @@ public class PlayerInteract : MonoBehaviour
     {
     }
     
-    // Update is called once per frame
-    private void Update()
+    public void TickInteract()
     {
         _nearbyInteractables.Clear();
         LocatorSystem.Instance.Fetch(transform.position, _interactionRange, _nearbyInteractables, ObjectKindMask.PartyGoer);
+        // TODO: Handle action indicator.
 
+        if(_nearbyInteractables.Count < 1) { return; }
+
+        IInteractable nearest = null;
         foreach (var locatable in _nearbyInteractables)
         {
             if (locatable is not IInteractable interactable) continue;
-            
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                // TODO: Look for the closest interactable and interact with that
-                interactable.Interact();
-            }
+            nearest = interactable;
+            break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.C) && nearest != null)
+        {
+            nearest.Interact();
         }
     }
     

@@ -26,9 +26,14 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // TODO: Get game state and change behaviour depending on if in menu or in game
-        //FollowPlayer();
-        MainMenuBehaviour();
+        if(GameManager.Instance.State == GameManager.GameState.Menu )
+        {
+            MainMenuBehaviour();
+        }
+        else
+        {
+            FollowPlayer();
+        }
     }
 
     private void FollowPlayer()

@@ -11,6 +11,9 @@ public class MovementPoint : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (NeighbourPoints == null) return;
+        if (!GameManager.DebugFlags.HasFlag(GameManager.DebugView.Nodes)) { return; }
+
+
         Gizmos.color = GetTypeColor(movementPointType);
         
         Gizmos.DrawSphere(transform.position, 0.1f);
