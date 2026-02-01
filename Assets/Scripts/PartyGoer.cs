@@ -10,6 +10,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
 {
     public SpriteRenderer SpriteRenderer;
     public AnimationController AnimationController;
+    public PartyGoerDialogue DialogueController;
     
     public Needs Needs;
     public float MovementSpeed;
