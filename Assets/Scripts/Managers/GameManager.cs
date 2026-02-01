@@ -47,12 +47,14 @@ public class GameManager : Singleton<GameManager>
 
         _rainbowModeGradient = new Gradient();
         GradientColorKey[] keys = new GradientColorKey[8];
+        GradientAlphaKey[] aKeys = new GradientAlphaKey[1] { new GradientAlphaKey(1, 0) };
         for (int i = 0; i < 8; i++)
         {
             float t = i / 7.0f;
             keys[i] = new GradientColorKey(Color.HSVToRGB(i / 7.0f, 1.0f, 1.0f), t);
         }
         _rainbowModeGradient.colorKeys = keys;
+        _rainbowModeGradient.alphaKeys = aKeys;
         _rainbowModeGradient.mode = GradientMode.Blend;
 
     }

@@ -14,6 +14,7 @@ public class LightingManager : Singleton<LightingManager>
     [SerializeField] private AnimationCurve _falloff = AnimationCurve.Linear(1, 1, 0, 0);
     [SerializeField, Range(0.1f, 1.0f)] private float _downscaling = 0.25f;  
     [SerializeField] private Gradient _skyColorOverTime;  
+    [SerializeField] private AnimationCurve _distanceOverTime = AnimationCurve.Linear(1, 1, 1,1);  
     
     private Mesh _mesh;
     private Vector3[] _vertPositions = new Vector3[256];
@@ -31,6 +32,7 @@ public class LightingManager : Singleton<LightingManager>
     private SkyBG _skyBG;
     private bool _rtInit;
     private int _drawLayer;
+    private float _distanceMult = 1.0f;
 
     private static Ray[] TEMP = new Ray[256];
 
@@ -62,10 +64,11 @@ public class LightingManager : Singleton<LightingManager>
     public void Tick(float progress)
     {
         _sunAngle = Mathf.LerpUnclamped(-90.0f, 180.0f, progress);
+        _distanceMult = _distanceOverTime.Evaluate(Mathf.Repeat(_sunAngle, 360.0f) / 360.0f);
 
         var targetColor = GetColor();
         // Kind of ugly but should work.
-        _skyColor = Color.Lerp(_skyColor, targetColor, Time.deltaTime * 1.5f);
+        _skyColor = targetColor;
 
         if (_skyBG != null)
         {
@@ -193,8 +196,17 @@ public class LightingManager : Singleton<LightingManager>
         Vector2 sPos = source.Origin - Utils.Perpendicular(source.Direction) * (0.5f * source.Width);
         Vector2 shift = Utils.Perpendicular(source.Direction) * (source.Width / (numRays - 1.0f));
         
-        float distance = source.GetDistance(progress);
-        Color tint = source.IsSun ? _skyColor : source.GetTint(progress);
+        float distance = source.GetDistance(progress) * (source.IsSun ? _distanceMult : 1.0f);
+        Color tint = source.GetTint(progress);
+
+        if (source.IsSun)
+        {
+            tint.r = _skyColor.r;
+            tint.g = _skyColor.g;
+            tint.b = _skyColor.b;
+            tint.a *= _skyColor.a;
+        }
+
 
         for (int i = 0; i < numRays; i++)
         {

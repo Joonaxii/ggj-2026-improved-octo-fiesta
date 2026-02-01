@@ -131,7 +131,10 @@ public class PartyManager : Singleton<PartyManager>
     
     public void TickMovement()
     {
-        
+        foreach(var partyGoer in _partyGoers)
+        {
+            partyGoer.Movement();
+        }
     }
 
     public void TickBehaviour()

@@ -17,12 +17,13 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     private CircleCollider2D _collider;
 
     public bool IsActive => _state != State.Dead;
-    public Vector3 Position => transform == null ? Vector3.zero : transform.position;
+    public Vector3 Position => _position;
     public float Radius => 0.5f;
     public ObjectKind Kind => ObjectKind.PartyGoer;
 
     private State _state;
     private State _prevState;
+    private Vector3 _position;
 
     private void Start()
     {
@@ -37,6 +38,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
 
     public void Movement()
     {
+        _position = transform.position;
         if (_state == State.Dead) { return; }
     }
 
