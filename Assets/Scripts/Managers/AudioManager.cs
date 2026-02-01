@@ -92,7 +92,7 @@ public class AudioManager : Singleton<AudioManager>
         _jinglePlayer.clip = clip;
         _jinglePlayer.time = 0;
         _jinglePlayer.loop = false;
-        _jinglePlayer.volume = 0.65f;
+        _jinglePlayer.volume = MUSIC_VOLUME;
         _jinglePlayer.Play();
         
         _playingJingle = true;
@@ -100,6 +100,8 @@ public class AudioManager : Singleton<AudioManager>
         _gameplayMusicPlayer.volume = 0;
         _menuMusicPlayer.volume = 0;
     }
+
+    const float MUSIC_VOLUME = 0.35f;
     
     private void Update()
     {
@@ -117,8 +119,8 @@ public class AudioManager : Singleton<AudioManager>
         bool isInGameplay = state == GameManager.GameState.InGame;
         _crossFade = Mathf.SmoothDamp(_crossFade, isInGameplay ? 1 : 0, ref _velocity, _crossfadeSmooth);
         
-        _gameplayMusicPlayer.volume = (_crossFade) * 0.65f;
-        _menuMusicPlayer.volume = (1.0f - _crossFade) * 0.65f;
+        _gameplayMusicPlayer.volume = (_crossFade) * MUSIC_VOLUME;
+        _menuMusicPlayer.volume = (1.0f - _crossFade) * MUSIC_VOLUME;
     }
 
     private AudioSource AddMusicSource(string name, bool loop, AudioClip clip, float volume)
