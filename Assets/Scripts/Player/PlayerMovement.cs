@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private AnimationController _animationController;
+    
+    [SerializeField] private AudioClip _footStepSound;
 
     public Vector3 Position => _rb != null ? _rb.position : Vector3.zero;
     public float Radius => _collider != null ? _collider.radius : 0;

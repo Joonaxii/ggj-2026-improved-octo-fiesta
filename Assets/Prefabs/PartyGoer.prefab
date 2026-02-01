@@ -61,6 +61,8 @@ MonoBehaviour:
     PissThreshold: 0
     Piss: 0
   MovementSpeed: 0
+  InteractSound: {fileID: 8300000, guid: 2d13aba941f01d661abd96158812b06f, type: 3}
+  FallSound: {fileID: 8300000, guid: d87d6da37119ba7628a81a5b73e32c4a, type: 3}
 --- !u!114 &1903873211573591118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,6 +153,7 @@ MonoBehaviour:
   _chatText: {fileID: 7393477223689254706}
   _chatterCooldownRange: {x: 3, y: 15}
   _showTime: 2
+  _chatterSound: {fileID: 8300000, guid: 94382796b039798a89cca37fa2d1c058, type: 3}
   _socializingComments:
   - Off to socialize!
   - Where's my friends at?

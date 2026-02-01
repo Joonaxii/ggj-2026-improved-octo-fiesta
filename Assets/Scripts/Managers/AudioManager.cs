@@ -41,9 +41,12 @@ public class AudioManager : Singleton<AudioManager>
         
         _menuMusicPlayer = AddMusicSource("Menu Music",true, _menuMusic, 1);
         _gameplayMusicPlayer = AddMusicSource("Gameplay Music", true, _gameplayMusic, 0);
-        
-        _gameplayMusicPlayer.Play();
-        _menuMusicPlayer.Play();
+
+        if (_musicOK)
+        {
+            _gameplayMusicPlayer.Play();
+            _menuMusicPlayer.Play();
+        }
         
         _jinglePlayer = AddMusicSource("Jingle Player", false, null, 1);
     }
@@ -137,11 +140,11 @@ public class AudioManager : Singleton<AudioManager>
         return source;
     }
 
-    private void PlayClip(AudioSource source, AudioClip clip, float pitch)
+    private void PlayClip(AudioSource source, AudioClip clip, float pitch, Vector3 position)
     {
         source.clip = clip;
         source.pitch = pitch;
-            
+        source.transform.position = position;
         source.PlayOneShot(clip);
     }
 
@@ -157,12 +160,36 @@ public class AudioManager : Singleton<AudioManager>
         foreach (var audioSource in _audioSources)
         {
             if (audioSource.isPlaying) continue;
-            PlayClip(audioSource, clip, pitch);
+            audioSource.spatialize = false;
+            PlayClip(audioSource, clip, pitch, Vector3.zero);
 
             return;
         }
 
         var newSource = AddAudioSource();
-        PlayClip(newSource, clip, pitch);
+        PlayClip(newSource, clip, pitch, Vector3.zero);
+    }
+
+    public void PlaySoundAtLocation(AudioClip clip, float pitch, Vector3 position)
+    {
+        _audioOK = PlayerPrefs.GetInt(PlayerPrefsValues.SFX_TOGGLE, 1) != 0;
+
+        if (!_audioOK)
+        {
+            return;
+        }
+        
+        foreach (var audioSource in _audioSources)
+        {
+            if (audioSource.isPlaying) continue;
+            audioSource.spatialize = true;
+            PlayClip(audioSource, clip, pitch, position);
+
+            return;
+        }
+
+        var newSource = AddAudioSource();
+        newSource.spatialize = true;
+        PlayClip(newSource, clip, pitch, position);
     }
 }

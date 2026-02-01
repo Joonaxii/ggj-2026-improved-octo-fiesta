@@ -114,6 +114,7 @@ public class PartyManager : Singleton<PartyManager>
             gameObject.transform.position = position;
             partyGoer.SpriteRenderer.flipX = gameObject.transform.position.x > point.position.x;
             
+            partyGoer.DialogueController.StartSpeaker();
             partyGoer.DialogueController.ChatterModeToggle(true);
         }
     }

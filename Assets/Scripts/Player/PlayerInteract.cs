@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float _interactionRange;
     
     private List<ILocatable> _nearbyInteractables = new List<ILocatable>();
+    
+    [SerializeField] private AudioClip _biteSound;
+    [SerializeField] private AudioClip _finalBiteSound;
 
     private void Awake()
     {
@@ -28,9 +32,13 @@ public class PlayerInteract : MonoBehaviour
             nearest = interactable;
             break;
         }
-
+        
         if (Input.GetKeyDown(KeyCode.C) && nearest != null)
         {
+            var soundToPlay = PartyManager.Instance.GoersLeft >= 2 ? _biteSound : _finalBiteSound;
+            var pitch = Random.Range(0.95f, 1.05f);
+            
+            AudioManager.Instance.PlaySound(soundToPlay, pitch);
             nearest.Interact();
         }
     }

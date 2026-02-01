@@ -9,7 +9,7 @@ public class ToggleButtonUI : MonoBehaviour
     [SerializeField] private string _prefToggleName;
     [SerializeField] private Image _cross;
 
-    public void Awake()
+    public void CheckCross()
     {
         _cross.gameObject.SetActive(PlayerPrefs.GetInt(_prefToggleName, 1) == 0);
     }
