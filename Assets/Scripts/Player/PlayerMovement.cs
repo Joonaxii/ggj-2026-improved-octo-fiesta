@@ -4,6 +4,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed;
     
+
+
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private AnimationController _animationController;
     
@@ -32,7 +34,23 @@ public class PlayerMovement : MonoBehaviour
         _animationController.InitializeAnimator(true);
     }
 
+    public void SetBurnLevel(float level)
+    {
+        _spriteRenderer.color = Color.Lerp(Color.white, new Color(1, 0.25f, 0.0f), level * level);
+    }
+
+    public void Die()
+    {
+        _animationController.DeathAnimation();
+    }
+
     public void ResetMove()
+    {
+        StopMove();
+        _animationController.IdleAnimation();
+    }
+
+    public void StopMove()
     {
         _moveDirection = Vector3.zero;
         _velocity = Vector3.zero;

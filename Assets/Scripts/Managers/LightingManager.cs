@@ -227,6 +227,11 @@ public class LightingManager : Singleton<LightingManager>
                 hitOut.hitPoint = hit.point;
                 hitOut.hitObject = hit.collider.gameObject;
                 hitOut.hitDist = Vector2.Distance(hit.point, source.Origin);
+
+                if(hitOut.hitObject.gameObject.tag == "Player")
+                {
+                    GameManager.Instance.HitRay(1.0f - (hitOut.hitDist / distance));
+                }
             }
             
             arc += perI;

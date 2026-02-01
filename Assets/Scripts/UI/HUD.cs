@@ -31,4 +31,10 @@ public class HUD : MonoBehaviour
     {
 
     }
+
+    public void UpdateSus(float sus)
+    {
+        _suspicicion.UpdateIndicatorState(sus);
+
+    }
 }

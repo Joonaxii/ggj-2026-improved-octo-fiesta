@@ -12,6 +12,12 @@ public class GameManager : Singleton<GameManager>
 
     public float CurrentTime => _time;
 
+    public bool WasSus
+    {
+        get => _player.WasSus;
+        set => _player.WasSus = value;
+    }
+
     public bool RainbowMode
     {
         get => _rainbowMode;
@@ -38,6 +44,18 @@ public class GameManager : Singleton<GameManager>
     private float _time;
     private int _score;
     private Player _player;
+
+    private float _numRaysHit = 0;
+
+    public void NoticeSus()
+    {
+        _player.NoticeSus();
+    }
+
+    public void HitRay(float far)
+    {
+        _numRaysHit+= far;
+    }
 
     protected override void Awake()
     {
@@ -72,6 +90,7 @@ public class GameManager : Singleton<GameManager>
         PartyManager.Instance.SpawnParty();
         _player.Movement.ResetMove();
         _player.transform.position = _playerSpawn.position;
+        _player.Respawn();
     }
     
     public void StartGame()
@@ -97,6 +116,7 @@ public class GameManager : Singleton<GameManager>
         _resultReason = reason;
         _state = GameState.GoingToLose;
         AudioManager.Instance.PlayLoseMusic();
+        _player.Movement.StopMove();
     }
 
     public void AddScore(int amount)
@@ -107,6 +127,7 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        _numRaysHit = 0;
         _rainbowColor = _rainbowModeGradient.Evaluate(Mathf.Repeat(_time * _rainbowRate, 1.0f));
 
         float nightProgress = _time / Mathf.Max(_nightLength, 1.0f);
@@ -114,6 +135,7 @@ public class GameManager : Singleton<GameManager>
         LocatorSystem.Instance.Tick();
         LightingManager.Instance.Tick(nightProgress);
 
+        _player.WasSus = false;
         switch (_state)
         {
             case GameState.AtWinScreen:
@@ -157,19 +179,26 @@ public class GameManager : Singleton<GameManager>
                     break;
                 }
 
+
                 _player.TickMovement();
                 PartyManager.Instance.TickMovement();
 
                 _player.TickInteraction();
-                PartyManager.Instance.TickBehaviour();
+                PartyManager.Instance.PollBehavior();
+                PartyManager.Instance.TickActions();
                 _time += Time.deltaTime;
+                _player.AddBurn(_numRaysHit * 0.25f * Time.deltaTime);
                 break;
             case GameState.Menu:
                 PartyManager.Instance.TickMovement();
-                PartyManager.Instance.TickBehaviour();
+                PartyManager.Instance.PollBehavior();
+                PartyManager.Instance.TickActions();
                 _time += Time.deltaTime;
                 break;
         }
+
+
+
     }
 
     [System.Flags]

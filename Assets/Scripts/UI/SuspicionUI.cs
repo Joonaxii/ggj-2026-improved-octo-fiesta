@@ -18,10 +18,11 @@ public class SuspicionUI : MonoBehaviour
     }
     
     // Sets the indicator sprite, change this with the suspicion level of nearby party goers
-    public void UpdateIndicatorState(int suspicionLevel)
+    public void UpdateIndicatorState(float suspicionLevel)
     {
-        var spriteIndex = Mathf.Clamp(suspicionLevel, 0, _indicatorSprites.Length - 1);
+        var spriteIndex = (int)Mathf.Clamp(suspicionLevel * (_indicatorSprites.Length - 1), 0, _indicatorSprites.Length - 1);
         _indicator.sprite = _indicatorSprites[spriteIndex];
+        _fillImage.fillAmount = suspicionLevel;
     }
     
     public void SetMeterValue(float value)

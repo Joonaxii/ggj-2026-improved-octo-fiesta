@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2516000929825729591}
   - component: {fileID: 7459102740092594111}
-  - component: {fileID: 2565217726397823415}
   - component: {fileID: 6748916874569348117}
   - component: {fileID: 9114630049607393888}
   m_Layer: 8
@@ -60,41 +59,28 @@ MonoBehaviour:
     PissThreshold: 0
     Piss: 0
   MovementSpeed: 0
---- !u!58 &2565217726397823415
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662405687405324451}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
+  _repulseDistance: 0.65
+  _repulseStrength: 0.75
+  _repulseMask:
     serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.24}
-  serializedVersion: 2
-  m_Radius: 0.25
+    m_Bits: 1
+  _minDrinkingDuration: 0.25
+  _maxDrinkingDuration: 2.5
+  _minPissDuration: 2.5
+  _maxPissDuration: 7.5
+  _minPunchDuration: 0.75
+  _maxPunchDuration: 2.5
+  _minSocializingDuration: 0.15
+  _maxSocializingDuration: 7.5
+  _state: 0
+  _prevState: 0
+  _targetState: 0
+  _timer: 0
+  _path:
+    nodes: []
+    from: 0
+    to: 0
+    current: 0
 --- !u!50 &6748916874569348117
 Rigidbody2D:
   serializedVersion: 4
@@ -155,6 +141,13 @@ MonoBehaviour:
   - I'll go get a drink.
   - Starting to get bit thirsty.
   - Where's the alcohol?
+  _sipDrinkComments:
+  - I need a sip!
+  - I can't stop drinking this punch.
+  - What are they putting in this punch?
+  - This punch tastes a bit like iron, but I like it!
+  - I need a drink!
+  - I'm not drunk, I'm just thirsty.
   _chatter:
   - This place is AWESOME!
   - The punch has a good kick.

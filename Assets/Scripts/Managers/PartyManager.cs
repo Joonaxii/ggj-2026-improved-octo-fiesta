@@ -81,6 +81,7 @@ public class PartyManager : Singleton<PartyManager>
 
     public void SpawnParty()
     {
+        _pollTimer = 0;
         _goersLeft += _numberOfPartyGoers;
         for (int i = 0; i < _numberOfPartyGoers; i++)
         {
@@ -95,7 +96,7 @@ public class PartyManager : Singleton<PartyManager>
             needs.RandomizeThresholds();
             partyGoer.Needs = needs;
             
-            partyGoer.MovementSpeed = Random.Range(2.5f, 10f);
+            partyGoer.MovementSpeed = Random.Range(0.75f, 3.25f);
             
             _partyGoers.Add(partyGoer);
             gameObject.transform.SetParent(transform);
@@ -121,6 +122,7 @@ public class PartyManager : Singleton<PartyManager>
     
     public void GetOutOfMyHouse()
     {
+        _pollTimer = 0;
         _goersLeft = 0;
         foreach (var partyGoer in _partyGoers)
         {
@@ -131,20 +133,44 @@ public class PartyManager : Singleton<PartyManager>
         }
         _partyGoers.Clear();
     }
-    
+
     public void TickMovement()
     {
         foreach(var partyGoer in _partyGoers)
         {
             partyGoer.Movement();
         }
+
+        foreach(var partyGoer in _partyGoers)
+        {
+            partyGoer.PostMovement();
+        }
+    }
+    
+    public void TickActions()
+    {
+        foreach(var partyGoer in _partyGoers)
+        {
+            partyGoer.Action();
+        }
     }
 
-    public void TickBehaviour()
+    private float _pollTimer;
+    public void PollBehavior()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.K))
+        _pollTimer += Time.deltaTime;
+        if(_pollTimer >= _pollRate)
         {
-            KillAll();
+            _pollTimer = 0;
+            foreach (var partyGoer in _partyGoers)
+            {
+                partyGoer.Behavior();
+            }
         }
+
+        //if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.K))
+        //{
+        //    KillAll();
+        //}
     }
 }

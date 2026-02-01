@@ -15,6 +15,7 @@ public class PartyGoerDialogue : MonoBehaviour
     [SerializeField] private List<string> _socializingComments = new List<string>();
     [SerializeField] private List<string> _bathroomComments = new List<string>();
     [SerializeField] private List<string> _drinkComments = new List<string>();
+    [SerializeField] private List<string> _sipDrinkComments = new List<string>();
     
     [SerializeField] private List<string> _chatter = new List<string>();
 
@@ -29,6 +30,7 @@ public class PartyGoerDialogue : MonoBehaviour
     public void ShowSocializingComment() => UpdateText(_socializingComments[Random.Range(0, _socializingComments.Count)]);
     public void ShowBathroomComment() => UpdateText(_bathroomComments[Random.Range(0, _bathroomComments.Count)]);
     public void ShowDrinkComment() => UpdateText(_drinkComments[Random.Range(0, _drinkComments.Count)]);
+    public void ShowSipDrinkComment() => UpdateText(_sipDrinkComments[Random.Range(0, _sipDrinkComments.Count)]);
 
     private void Start()
     {

@@ -154,6 +154,43 @@ public class LocatorSystem : Singleton<LocatorSystem>
         }
     }
 
+    public int Fetch(Vector3 position, float radius, Span<ILocatable> results, ObjectKindMask allowed = ObjectKindMask.All)
+    {
+        CHECK_MASK = allowed;
+        _tempLut.Clear();
+        _grid.Fetch(position, radius, _tempLut, VALIDITY_CHECK);
+
+        if(TEMP_ENTRIES.Length < _tempLut.Count)
+        {
+            Array.Resize(ref TEMP_ENTRIES, _tempLut.Count + (_tempLut.Count >> 1));
+        }
+
+        int hit = 0;
+
+        Vector2 p2D = position;
+        foreach(var entry in _tempLut)
+        {
+            if(Utils.CircleVSCircle(p2D, radius, entry.Position, entry.Radius))
+            {
+                float sqrDist = Vector2.SqrMagnitude(entry.Position - position);
+                TEMP_ENTRIES[hit++] = new FetchEntry()
+                {
+                    distance = sqrDist,
+                    locatable = entry
+                };
+            }
+        }
+
+        Array.Sort(TEMP_ENTRIES, 0, hit, FEntryComparer.Default);
+
+        int len = Mathf.Min(results.Length, hit);
+        for (int i = 0; i < len; i++)
+        {
+            results[i] = TEMP_ENTRIES[i].locatable;
+        }
+        return len;
+    }
+
     [System.Serializable]
     public struct GridSettings
     {

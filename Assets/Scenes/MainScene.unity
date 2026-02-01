@@ -1414,6 +1414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 505541221}
+  - component: {fileID: 505541222}
   m_Layer: 0
   m_Name: PartyPoints
   m_TagString: Untagged
@@ -1430,7 +1431,7 @@ Transform:
   m_GameObject: {fileID: 505541220}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.020766858}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1457,6 +1458,21 @@ Transform:
   - {fileID: 767229789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &505541222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505541220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de6eaaf2ae751eb429dc1d760a73edf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &535720218
 GameObject:
   m_ObjectHideFlags: 0
@@ -2190,6 +2206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementPointType: 0
   NeighbourPoints:
+  - {fileID: 1058364802}
   - {fileID: 1336847895}
   - {fileID: 920994106}
   - {fileID: 1078603380}
@@ -2335,7 +2352,7 @@ GameObject:
   - component: {fileID: 773629356}
   m_Layer: 7
   m_Name: Occluder
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2404,7 +2421,7 @@ GameObject:
   - component: {fileID: 773838781}
   m_Layer: 0
   m_Name: PlayerSprite
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3528,6 +3545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementPointType: 0
   NeighbourPoints:
+  - {fileID: 2028045938}
   - {fileID: 1359857035}
   - {fileID: 714251376}
   - {fileID: 1501903315}
@@ -3577,6 +3595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementPointType: 0
   NeighbourPoints:
+  - {fileID: 1336847895}
   - {fileID: 1359857035}
   - {fileID: 2058288746}
   - {fileID: 714251376}
@@ -4197,7 +4216,7 @@ MonoBehaviour:
     m_Bits: 1
   _pollRate: 1
   _partyGoerPrefab: {fileID: 662405687405324451, guid: ad0607c999f57625d8bc66b4897297f9, type: 3}
-  _numberOfPartyGoers: 48
+  _numberOfPartyGoers: 24
   _partyGoerSpeedRange: {x: 2.5, y: 10}
   _partyGoerSprites:
   - {fileID: -1895469885, guid: 51521fc27f2d18b4a9aa10120c78e771, type: 3}
@@ -4630,6 +4649,7 @@ MonoBehaviour:
   - {fileID: 1058364802}
   - {fileID: 714251376}
   - {fileID: 1078603380}
+  - {fileID: 1501903315}
   - {fileID: 140266973}
   - {fileID: 920994106}
 --- !u!1 &1355307360
@@ -4747,6 +4767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementPointType: 0
   NeighbourPoints:
+  - {fileID: 1076185193}
   - {fileID: 1078603380}
   - {fileID: 1866618338}
   - {fileID: 714251376}
@@ -64344,7 +64365,7 @@ GameObject:
   - component: {fileID: 1435956125}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64470,6 +64491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2feaba1b109d5e9ddb2c1f6e062c26a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: {fileID: 8300000, guid: d87d6da37119ba7628a81a5b73e32c4a, type: 3}
 --- !u!1 &1443940933
 GameObject:
   m_ObjectHideFlags: 0
@@ -66616,6 +66638,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3754829564093704276, guid: d8c5428e93cc7fb41b7974cf35347bdb, type: 3}
+      propertyPath: _nightLength
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3754829564093704276, guid: d8c5428e93cc7fb41b7974cf35347bdb, type: 3}
       propertyPath: _playerSpawn
       value: 
       objectReference: {fileID: 835799346}
@@ -66637,7 +66663,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4788031070328206065, guid: d8c5428e93cc7fb41b7974cf35347bdb, type: 3}
       propertyPath: _downscaling
-      value: 0.1
+      value: 0.225
       objectReference: {fileID: 0}
     - target: {fileID: 4788031070328206065, guid: d8c5428e93cc7fb41b7974cf35347bdb, type: 3}
       propertyPath: _maxDistance
@@ -67288,9 +67314,9 @@ SceneRoots:
   - {fileID: 1938844067}
   - {fileID: 196342903}
   - {fileID: 1185846674}
+  - {fileID: 505541221}
   - {fileID: 835799346}
   - {fileID: 1435956118}
-  - {fileID: 505541221}
   - {fileID: 1713588950}
   - {fileID: 1598113554}
   - {fileID: 624246591}

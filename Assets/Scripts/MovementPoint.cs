@@ -5,14 +5,28 @@ using UnityEngine.Serialization;
 
 public class MovementPoint : MonoBehaviour
 {
+    public Vector3 Position => _transform != null ? _transform.position : Vector3.zero;
+
+    public int Index
+    {
+        get => _index;
+        set => _index = value;
+    }
+
     public MovementPointType movementPointType;
     public MovementPoint[] NeighbourPoints = new MovementPoint[4];
+    private Transform _transform;
+    private int _index;
+
+    private void Awake()
+    {
+        _transform = transform;
+    }
 
     private void OnDrawGizmos()
     {
         if (NeighbourPoints == null) return;
         if (!GameManager.DebugFlags.HasFlag(GameManager.DebugView.Nodes)) { return; }
-
 
         Gizmos.color = GetTypeColor(movementPointType);
         

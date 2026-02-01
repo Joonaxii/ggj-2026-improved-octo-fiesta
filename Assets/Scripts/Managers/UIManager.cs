@@ -214,4 +214,9 @@ public class UIManager : Singleton<UIManager>
         _gameResultUI.gameObject.SetActive(true);
         _gameResultUI.Open(gameResult, score);
     }
+
+    internal void UpdateSus(float v)
+    {
+        _hud.UpdateSus(v);
+    }
 }
