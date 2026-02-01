@@ -608,3 +608,4 @@ MonoBehaviour:
   _animator: {fileID: 4824516320073257131}
   _swoon: {fileID: 8300000, guid: 2d13aba941f01d661abd96158812b06f, type: 3}
   _hitfloor: {fileID: 8300000, guid: d87d6da37119ba7628a81a5b73e32c4a, type: 3}
+  _walk: {fileID: 8300000, guid: d7a8c08cf50003936bcc72cacd7abe79, type: 3}
