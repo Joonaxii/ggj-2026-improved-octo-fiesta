@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
         _moveDirection = Vector3.zero;
         _velocity = Vector3.zero;
         _rb.velocity = _velocity;
+
+        _animationController.InitializeAnimator(true);
     }
 
     public void ResetMove()

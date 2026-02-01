@@ -11,6 +11,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private HUD _hud;
     [SerializeField] private CanvasGroup _screenFade;
     [SerializeField] private float _fadeInTime;
+    
+    [SerializeField] private AudioClip _clickSound;
 
     private IEnumerator _starter;
     private int _counter = 0;
@@ -178,7 +180,12 @@ public class UIManager : Singleton<UIManager>
         _mainMenuUI.gameObject.SetActive(true);
         _mainMenuUI.Open();
     }
-    
+
+
+    public void PlayClickSound()
+    {
+        AudioManager.Instance.PlaySound(_clickSound,1);
+    }
     
     public void CloseMainMenuUI()
     {

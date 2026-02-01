@@ -30,6 +30,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     {
         LocatorSystem.Instance.Register(this);
         _collider = GetComponent<CircleCollider2D>();
+        AnimationController.InitializeAnimator(false);
     }
 
     private void OnDestroy()
