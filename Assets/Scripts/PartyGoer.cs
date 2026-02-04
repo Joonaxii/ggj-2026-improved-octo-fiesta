@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Needs = PartyManager.Needs;
 
 using Random = UnityEngine.Random;
@@ -13,6 +12,8 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     public SpriteRenderer SpriteRenderer;
     public AnimationController AnimationController;
     public PartyGoerDialogue DialogueController;
+
+    public GameObject TargetMarker;
     
     public Needs Needs;
     public float MovementSpeed;
@@ -54,6 +55,7 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     {
         LocatorSystem.Instance.Register(this);
         AnimationController.InitializeAnimator(false);
+        TargetMarker.SetActive(false);
 
         _state = State.Idle;
         _timer = Random.Range(0.25f, 1.75f);
@@ -68,6 +70,11 @@ public class PartyGoer : MonoBehaviour, IInteractable, ILocatable
     {
         _prevState = _state;
         _state = state;
+    }
+
+    public void UpdateInteractVisuals(bool newState)
+    {
+        TargetMarker.SetActive(newState);
     }
 
     public void WantsToSocialize()

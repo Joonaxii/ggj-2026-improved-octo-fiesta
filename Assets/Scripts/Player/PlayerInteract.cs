@@ -21,10 +21,10 @@ public class PlayerInteract : MonoBehaviour
     {
         _nearbyInteractables.Clear();
         LocatorSystem.Instance.Fetch(transform.position, _interactionRange, _nearbyInteractables, ObjectKindMask.PartyGoer);
-        // TODO: Handle action indicator.
 
         if(_nearbyInteractables.Count < 1) { return; }
-
+        
+        
         IInteractable nearest = null;
         foreach (var locatable in _nearbyInteractables)
         {
@@ -33,10 +33,13 @@ public class PlayerInteract : MonoBehaviour
             break;
         }
         
+        nearest?.UpdateInteractVisuals(true);
+        
         if (Input.GetKeyDown(KeyCode.C) && nearest != null)
         {
             var soundToPlay = PartyManager.Instance.GoersLeft >= 2 ? _biteSound : _finalBiteSound;
             var pitch = Random.Range(0.95f, 1.05f);
+            nearest?.UpdateInteractVisuals(false);
             
             AudioManager.Instance.PlaySound(soundToPlay, pitch);
             nearest.Interact();
